@@ -3,6 +3,7 @@ import express from 'express';
 import serverRenderer from './middleware/renderer';
 //So what’s with that serverRenderer thing?
 // That’s an express middleware which will render our html.
+import Loadable from 'react-loadable';
 
 const PORT = 3000;
 const path = require('path');
@@ -19,10 +20,13 @@ router.use(express.static(
 // tell the app to use the above rules
 app.use(router);
 // start the app
-app.listen(PORT, (error) => {
-    if (error) {
-        return console.log('something bad happened', error);
-    }
+Loadable.preloadAll().then(() => {
 
-    console.log("listening on " + PORT + "...");
+    app.listen(PORT, (error) => {
+        if (error) {
+            return console.log('something bad happened', error);
+        }
+
+        console.log("listening on " + PORT + "...");
+    });
 });
