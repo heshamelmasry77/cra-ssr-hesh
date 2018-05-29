@@ -9,6 +9,7 @@
     "ignore-styles": "^5.0.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-loadable": "^5.4.0",
     "react-scripts": "1.1.4"
   },
   "scripts": {
