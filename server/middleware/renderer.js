@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
+import {Helmet} from 'react-helmet';
+import { StaticRouter } from  'react-router-dom';
 import Loadable from 'react-loadable';
 
 // read the manifest file
@@ -31,17 +33,21 @@ export default (req, res, next) => {
 
         // render the app as a string
         const html = ReactDOMServer.renderToString(
-            <Loadable.Capture report={m => modules.push(m)}>
-                <App/>
-            </Loadable.Capture>
+            <StaticRouter location={req.baseUrl}>
+                <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+                    <App/>
+                </Loadable.Capture>
+            </StaticRouter>
         );
+        const helmet = Helmet.renderStatic();
 
         const extraChunks = extractAssets(manifest, modules)
             .map(c => `<script type="text/javascript" src="/${c}"></script>`);
 
         // now inject the rendered app into our html and send it
-        return res.send(
+        res.send(
             htmlData
+                .replace('<title></title>', helmet.title.toString())
                 .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
                 .replace('</body>', extraChunks.join('') + '</body>')
         );
