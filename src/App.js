@@ -20,10 +20,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <Helmet>
-              <meta charSet="utf-8" />
-              <title>Homepage title</title>
-          </Helmet>
+
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>

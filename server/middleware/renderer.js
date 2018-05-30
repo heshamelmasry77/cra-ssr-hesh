@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer, { renderToNodeStream,renderToStaticNodeStream }  from 'react-dom/server';
 import {Helmet} from 'react-helmet';
 import { StaticRouter } from  'react-router-dom';
 import Loadable from 'react-loadable';
@@ -32,7 +32,7 @@ export default async (req, res, next) => {
         const modules = [];
 
         // render the app as a string
-        const html = ReactDOMServer.renderToString(
+        const html = (
             <StaticRouter location={req.baseUrl}>
                 <Loadable.Capture report={moduleName => modules.push(moduleName)}>
                     <App/>
@@ -40,6 +40,7 @@ export default async (req, res, next) => {
             </StaticRouter>
         );
         const helmet = Helmet.renderStatic();
+        const htmlSteam = renderToNodeStream(html);
 
         const extraChunks = extractAssets(manifest, modules)
             .map(c => `<script type="text/javascript" src="/${c}"></script>`);
@@ -48,7 +49,7 @@ export default async (req, res, next) => {
         res.send(
             htmlData
                 .replace('<title></title>', helmet.title.toString())
-                .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+                .replace('<div id="root"></div>', `<div id="root">${htmlSteam}</div>`)
                 .replace('</body>', extraChunks.join('') + '</body>')
         );
     });
