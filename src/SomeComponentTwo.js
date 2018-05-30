@@ -4,10 +4,8 @@ import { Helmet } from 'react-helmet';
 export default () => (
     <div>
         <Helmet>
-            <meta charSet="utf-8" />
-            <title>Homepage title</title>
+            <title>About page title</title>
         </Helmet>
-        <p>Hi, I'm async.</p>
-
+        <p>Hi, I'm async two.</p>
     </div>
 );

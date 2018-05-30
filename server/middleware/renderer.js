@@ -1,5 +1,7 @@
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer, { renderToNodeStream,renderToStaticNodeStream }  from 'react-dom/server';
+import {Helmet} from 'react-helmet';
+import { StaticRouter } from  'react-router-dom';
 import Loadable from 'react-loadable';
 
 // read the manifest file
@@ -16,7 +18,7 @@ import App from '../../src/App';
 const path = require("path");
 const fs = require("fs");
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
 
     // get the html file created by CRA's build tool
     const filePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
@@ -30,19 +32,24 @@ export default (req, res, next) => {
         const modules = [];
 
         // render the app as a string
-        const html = ReactDOMServer.renderToString(
-            <Loadable.Capture report={m => modules.push(m)}>
-                <App/>
-            </Loadable.Capture>
+        const html = (
+            <StaticRouter location={req.baseUrl}>
+                <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+                    <App/>
+                </Loadable.Capture>
+            </StaticRouter>
         );
+        const helmet = Helmet.renderStatic();
+        const htmlSteam = renderToNodeStream(html);
 
         const extraChunks = extractAssets(manifest, modules)
             .map(c => `<script type="text/javascript" src="/${c}"></script>`);
 
         // now inject the rendered app into our html and send it
-        return res.send(
+        res.send(
             htmlData
-                .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+                .replace('<title></title>', helmet.title.toString())
+                .replace('<div id="root"></div>', `<div id="root">${htmlSteam}</div>`)
                 .replace('</body>', extraChunks.join('') + '</body>')
         );
     });
