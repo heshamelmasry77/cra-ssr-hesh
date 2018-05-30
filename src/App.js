@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Loadable from 'react-loadable';
+// CRA’s chunks by default are ugly and unpredictable. We can improve this by naming
+// our chunks using a relatively new feature of webpack: chunk names.
 const AsyncComponent = Loadable({
-    loader: () => import("./SomeComponent"),
+    loader: () => import(/* webpackChunkName: "myNamedChunk" */ './SomeComponent'),
     loading: () => <div>loading...</div>,
+    modules: ['myNamedChunk']
 });
 class App extends Component {
   render() {
