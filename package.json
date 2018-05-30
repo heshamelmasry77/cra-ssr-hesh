@@ -19,6 +19,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "NODE_ENV=production node server/bootstrap.js"
+    "server": "NODE_ENV=production nodemon server/bootstrap.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
   }
 }

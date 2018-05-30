@@ -18,7 +18,7 @@ import App from '../../src/App';
 const path = require("path");
 const fs = require("fs");
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
 
     // get the html file created by CRA's build tool
     const filePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
