@@ -1,0 +1,12 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:extend:20180424':
+    - react-scripts > jest > jest-cli > jest-environment-jsdom > jsdom > request > extend:
+        patched: '2020-04-02T08:22:56.789Z'
+    - react-scripts > jest > jest-cli > jest-config > jest-environment-jsdom > jsdom > request > extend:
+        patched: '2020-04-02T08:22:56.789Z'
+    - react-scripts > jest > jest-cli > jest-runtime > jest-config > jest-environment-jsdom > jsdom > request > extend:
+        patched: '2020-04-02T08:22:56.789Z'

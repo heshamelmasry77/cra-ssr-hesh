@@ -8,20 +8,24 @@
     "express": "^4.16.3",
     "ignore-styles": "^5.0.1",
     "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.4.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4"
+    "react-scripts": "3.0.0",
+    "snyk": "^1.305.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "NODE_ENV=production nodemon server/bootstrap.js"
+    "server": "NODE_ENV=production nodemon server/bootstrap.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "nodemon": "^1.17.5"
-  }
+  },
+  "snyk": true
 }
